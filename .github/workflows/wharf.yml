@@ -1,6 +1,30 @@
-- name: Webhook
-  uses: joelwmale/webhook-action@master
-  with:
-    url: ${{ secrets.WEBHOOK_URL }}
-    headers: '{"Content-Type": "application/json"}'
-    body: '{"Secret": ${{ secrets.SECRET }} }'
+name: Webhook Action
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      
+      - name: Webhook
+        uses: joelwmale/webhook-action@2.0.2
+        with:
+          url: ${{ secrets.WEBHOOK_URL }}
+          headers: '{"Content-Type": "application/json"}'
+          body: '{"Secret": ${{ secrets.SECRET }} }'
