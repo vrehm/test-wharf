@@ -1,0 +1,6 @@
+- name: Webhook
+  uses: joelwmale/webhook-action@master
+  with:
+    url: ${{ secrets.WEBHOOK_URL }}
+    headers: '{"Content-Type": "application/json"}'
+    body: '{"Secret": ${{ secrets.SECRET }} }'
